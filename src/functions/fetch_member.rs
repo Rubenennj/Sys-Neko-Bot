@@ -8,17 +8,13 @@ pub async fn fetch_member(ctx: &Context, guild_id: GuildId, user_id: UserId) -> 
         Some(m) => Ok(m),
         None => match ctx.http.get_member(guild_id.0, user_id.0).await {
             Ok(m) => {
-                let mut guild = ctx.cache
-                    .guild(&guild_id)
-                    .await
-                    .unwrap();
+                let mut guild = ctx.cache.guild(&guild_id).await.unwrap();
 
-                guild.members
-                    .insert(user_id, m.clone());
+                guild.members.insert(user_id, m.clone());
 
                 Ok(m)
-            },
-            Err(e) => Err(e)
-        }
+            }
+            Err(e) => Err(e),
+        },
     }
 }

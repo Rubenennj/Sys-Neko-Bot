@@ -8,13 +8,14 @@ use std::error::Error;
 pub trait Command: Send + Sync {
     fn name(&self) -> &'static str;
 
-    fn category(&self ) -> &'static str;
+    fn category(&self) -> &'static str;
 
     async fn execute(
         &self,
         client: &NekoClient,
         ctx: &Context,
         message: &Message,
+        args: &Vec<String>,
     ) -> Result<(), String> {
         todo!()
     }

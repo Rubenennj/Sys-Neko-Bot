@@ -1,4 +1,5 @@
 use crate::core::event_handler::NekoEventHandler;
+use crate::NekoClient;
 use serde_json::Value;
 use serenity::async_trait;
 use serenity::client::bridge::gateway::event::ShardStageUpdateEvent;
@@ -20,11 +21,19 @@ use serenity::model::id::{
 };
 use serenity::model::prelude::{CurrentUser, User, VoiceState};
 use std::collections::HashMap;
-use crate::NekoClient;
+use crate::handling::command_handler::command_handler;
 
 #[async_trait]
 impl EventHandler for NekoEventHandler {
     async fn ready(&self, _ctx: Context, data: Ready) {
-        println!("Ready on client {} and loaded {} commands", data.user.tag(), NekoClient::commands().len());
+        println!(
+            "Ready on client {} and loaded {} commands",
+            data.user.tag(),
+            NekoClient::commands().len()
+        );
+    }
+
+    async fn message(&self, ctx: Context, msg: Message) {
+        command_handler(&self.client, &ctx, &msg).await;
     }
 }

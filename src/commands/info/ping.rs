@@ -6,6 +6,7 @@ use serenity::model::channel::Message;
 use std::error::Error;
 use std::ops::Sub;
 use std::time::SystemTime;
+use chrono::Utc;
 
 pub struct PingCommand;
 
@@ -24,28 +25,32 @@ impl Command for PingCommand {
         client: &NekoClient,
         ctx: &Context,
         message: &Message,
+        _args: &Vec<String>,
     ) -> Result<(), String> {
+        let start = Utc::now();
+
         match message
             .channel_id
             .send_message(&ctx, |m| m.content("Pinging..."))
-            .await {
+            .await
+        {
             Ok(mut msg) => {
                 let timestamp = msg.timestamp;
 
-                match msg.edit(&ctx, |m| {
-                    m.content(format!(
-                        "Pong! {}ms",
-                        SystemTime::now()
-                            .duration_since(SystemTime::from(timestamp))
-                            .unwrap()
-                            .as_millis()
-                    ))
-                }).await {
+                match msg
+                    .edit(&ctx, |m| {
+                        m.content(format!(
+                            "Pong! {}ms",
+                            Utc::now().sub(start).num_milliseconds()
+                        ))
+                    })
+                    .await
+                {
                     Ok(_) => Ok(()),
-                    Err(e) => Err(e.to_string())
+                    Err(e) => Err(e.to_string()),
                 }
-            },
-            Err(e) => Err(e.to_string())
+            }
+            Err(e) => Err(e.to_string()),
         }
     }
 }

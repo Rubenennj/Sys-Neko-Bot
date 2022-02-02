@@ -3,7 +3,7 @@ use crate::traits::command::Command;
 
 #[derive(Default)]
 pub struct NekoClient {
-    prefixes: Vec<String>,
+    pub prefixes: Vec<String>,
 }
 
 impl NekoClient {
@@ -15,8 +15,6 @@ impl NekoClient {
     }
 
     pub fn commands() -> Vec<Box<dyn Command>> {
-        vec![
-            Box::new(PingCommand)
-        ]
+        vec![Box::new(PingCommand)]
     }
 }

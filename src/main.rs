@@ -3,10 +3,11 @@
 mod commands;
 mod core;
 mod events;
+mod functions;
+mod handling;
 mod structures;
 mod tests;
 mod traits;
-mod functions;
 
 use crate::core::event_handler::NekoEventHandler;
 use crate::core::neko_client::NekoClient;

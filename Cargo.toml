@@ -9,3 +9,4 @@ edition = "2021"
 serde_json = "1.0.78"
 serenity = { git = "https://github.com/Rubenennj/serenity.git", features = [ "unstable_discord_api", "rustls_backend", "builder", "cache", "http", "client", "gateway", "utils", "model" ], default-features = false }
 tokio = { version = "1.15.0", features = ["full"] }
+chrono = "0.4.19"

@@ -8,15 +8,11 @@ pub async fn fetch_user(ctx: &Context, id: UserId) -> Result<User> {
         Some(u) => Ok(u),
         None => match ctx.http.get_user(id.0).await {
             Ok(u) => {
-                ctx.cache
-                    .users
-                    .write()
-                    .await
-                    .insert(id, u.clone());
+                ctx.cache.users.write().await.insert(id, u.clone());
 
                 Ok(u)
-            },
-            Err(e) => Err(e)
-        }
+            }
+            Err(e) => Err(e),
+        },
     }
 }
